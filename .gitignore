@@ -1,3 +1,7 @@
+# Ignore env vars file
+.env
+*.env
+
 # Logs
 logs
 *.log
