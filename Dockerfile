@@ -14,11 +14,11 @@ FROM node:22-alpine
 # Set working directory inside the container
 WORKDIR /app
 
-# Copy the server folder into /app
-COPY . .
-
 # Expose the port
-EXPOSE 1300
+EXPOSE 3000
 
 # Command to run the server at container start
-CMD ["node", "app.js"]
+# un comment and fix the commands for the deployment phase
+# CMD ["node", "app.js"]
+CMD ["npm", "run", "dev"]
+
