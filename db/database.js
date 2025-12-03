@@ -24,21 +24,6 @@ async function connectDB() {
   return mongoose.connection;
 }
 
-/**
- * Keep old connection for testing till i update tests.
- * Returns { db, collection } where `collection` is the native driver collection.
- */
-async function getDb(collectionName) {
-  await connectDB();
-  const db = mongoose.connection.db;
-  const collection = db.collection(collectionName);
-  return { db, collection };
-}
-
-async function closeDb() {
-  await mongoose.disconnect();
-  connected = false;
-}
-
-module.exports = { connectDB, getDb, closeDb, mongoose };
+// module.exports = { connectDB, getDb, closeDb, mongoose };
+module.exports = { connectDB };
 
