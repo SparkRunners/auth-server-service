@@ -41,7 +41,7 @@ router.get('/test/google/callback', async (req, res) => {
             headers: { Authorization: `Bearer ${accessToken}` }
         });
 
-        // Display profile info in browser
+        // Display info in browser
         res.send(`
       <h2>Google Profile Info</h2>
       <pre>${JSON.stringify(profileResponse.data, null, 2)}</pre>
