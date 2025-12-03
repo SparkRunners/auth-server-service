@@ -2,23 +2,30 @@ require('dotenv').config();
 const express = require('express')
 const app = express()
 const PORT = process.env.PORT || 3000;
-// Require databse constant
+const passport = require('passport');
+require('./oauth/google')(passport);
+const cookieParser = require('cookie-parser');
+// Require database constant
 const { connectDB } = require('./db/database');
-
 // Require util constants
 const setupSwagger = require("./utils/swagger");
-
 // Redefine predefined routes
 const authRoutes = require('./routes/authRoutes');
-
+const oauthTestRoutes = require('./routes/oauthTestRoutes');
 
 connectDB().catch(err => console.error("DB connect error", err));
-setupSwagger(app, PORT);
+setupSwagger(app);
 
+
+
+app.use(express.json());
+app.use(cookieParser());
+app.use(passport.initialize()); 
 
 
 // Define routes centraly
 app.use('/auth', authRoutes);
+app.use('/oauth', oauthTestRoutes);
 
 // GET / - fetch astring as a swager docs example
 /**
@@ -41,9 +48,7 @@ app.use('/auth', authRoutes);
 app.get('/', (req, res) => {
     res.send('Hello from the auth-server-service express app!\n Try /api-docs/v1 to retrive all docs.')
 })
-app.get('/docker', (req, res) => {
-    res.send('docker route with noemon volume updated!')
-})
+
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
