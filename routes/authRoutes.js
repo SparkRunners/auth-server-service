@@ -4,16 +4,14 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173'; // temp fallback
 
-
 const { registerUser, loginUser } = require("../controllers/authController");
-
 
 /**
  * @swagger
- * /register:
+ * /auth/register:
  *   post:
  *     tags:
- *          - Users
+ *       - REST-Auth
  *     summary: Register a new user
  *     requestBody:
  *       required: true
@@ -22,16 +20,29 @@ const { registerUser, loginUser } = require("../controllers/authController");
  *           schema:
  *             type: object
  *             required:
- *               - username
- *               - email
- *               - password
+ *               - username       # Required
+ *               - email          # Required
+ *               - password       # Required
  *             properties:
  *               username:
  *                 type: string
+ *                 example: "newuser"
+ *                 description: Required. Unique username for the user.
  *               email:
  *                 type: string
+ *                 example: "newuser@example.com"
+ *                 description: Required. User email, must be unique.
  *               password:
  *                 type: string
+ *                 example: "Password123!"
+ *                 description: Required. User password.
+ *               role:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                   enum: [user, admin]
+ *                 example: ["user"]
+ *                 description: Optional. Default role is ["user"] if not provided.
  *     responses:
  *       201:
  *         description: User successfully registered
@@ -40,6 +51,7 @@ const { registerUser, loginUser } = require("../controllers/authController");
  *       500:
  *         description: Server error
  */
+
 router.post("/register", async (req, res) => {
   try {
     const user = await registerUser(req.body);
@@ -51,11 +63,11 @@ router.post("/register", async (req, res) => {
 
 /**
  * @swagger
- * /login:
+ * /auth/login:
  *   post:
  *     tags:
- *         - Users
- *     summary: Login a user and get JWT
+ *       - REST-Auth
+ *     summary: Login a user with email and get JWT
  *     requestBody:
  *       required: true
  *       content:
@@ -63,14 +75,17 @@ router.post("/register", async (req, res) => {
  *           schema:
  *             type: object
  *             required:
- *               - usernameOrEmail
+ *               - email
  *               - password
  *             properties:
- *               usernameOrEmail:
+ *               email:
  *                 type: string
- *                 description: Username or email
+ *                 example: "user@example.com"
+ *                 description: Registered user email
  *               password:
  *                 type: string
+ *                 example: "Password123!"
+ *                 description: User password
  *     responses:
  *       200:
  *         description: Login successful, returns JWT token
@@ -88,8 +103,6 @@ router.post("/login", async (req, res) => {
   }
 });
 
-
-
 /**
  * @swagger
  * /auth/google:
@@ -98,6 +111,7 @@ router.post("/login", async (req, res) => {
  *       - OAuth
  *     summary: Initiate Google OAuth login
  *     description: Redirects the user to Google to authenticate and authorize the app.
+ *     NOTE: This route cannot be executed from Swagger UI due to cross-origin redirect.
  *     responses:
  *       302:
  *         description: Redirect to Google OAuth consent screen
@@ -136,13 +150,11 @@ router.get(
     }
 
     // Create JWT
-    const payload = { id: req.user._id, username: req.user.username, email: req.user.email };
+    const payload = { id: req.user._id, username: req.user.username, email: req.user.email, role: req.user.role  };
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d' });
 
     return res.redirect(`${FRONTEND_URL}/oauth-callback?token=${token}`);
   }
 );
-
-
 
 module.exports = router;

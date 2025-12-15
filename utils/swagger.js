@@ -27,13 +27,14 @@ function setupSwagger(app) {
     },
     apis: ["./app.js",
       "./routes/authRoutes.js",
+      "./routes/userRoutes.js",
       "./routes/docRoutes.js ",
       "./routes/inviteRoutes.js "
     ],
   };
 
   const specs = swaggerJsDoc(options);
-  app.use("/api-docs/v1/", swaggerUi.serve, swaggerUi.setup(specs));
+  app.use("/api-docs/v2/", swaggerUi.serve, swaggerUi.setup(specs));
 }
 
 module.exports = setupSwagger;
