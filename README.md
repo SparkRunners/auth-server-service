@@ -11,6 +11,9 @@
 ## Beskrivning
 auth-server-service är en server-applikation som exponerar auth REST APier för att integrera inlogning +registrering av använder i olika applikationer och är kopplad till ett moln baserad mongodb.
 
+## Badges för att visa bygg och kodhälsa status:
+
+[![Node.js CI Refactoring branch](https://github.com/SparkRunners/auth-server-service/actions/workflows/node-CI.js.yml/badge.svg)](https://github.com/SparkRunners/auth-server-service/actions/workflows/node-CI.js.yml)
 
 ## Installation och körning
 1. För att få appen att fungera behövde vi klona repot:
