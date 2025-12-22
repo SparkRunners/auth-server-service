@@ -1,3 +1,5 @@
+/* eslint-env jest */
+
 // Tests REST Auth routes
 const request = require("supertest");
 const app = require("../app");

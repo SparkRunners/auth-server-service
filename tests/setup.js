@@ -1,3 +1,5 @@
+/* eslint-env jest */
+
 // Sets up an in-memory MongoDB for testing and cleans up afterwards
 const mongoose = require("mongoose");
 const { MongoMemoryServer } = require("mongodb-memory-server");
