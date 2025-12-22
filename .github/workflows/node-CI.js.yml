@@ -35,6 +35,13 @@ jobs:
       working-directory: ./
 
     - name: Run tests
+      env:
+        GOOGLE_CLIENT_ID: "test"
+        GOOGLE_CLIENT_SECRET: "test"
+        GOOGLE_REDIRECT_URI: "http://localhost:3000/auth/google/callback"
+        GITHUB_CLIENT_ID: "test"
+        GITHUB_CLIENT_SECRET: "test"
+        GITHUB_REDIRECT_URI: "http://localhost:3000/auth/github/callback"
       run: npm test
       working-directory: ./
 
