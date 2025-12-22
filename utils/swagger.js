@@ -27,6 +27,8 @@ function setupSwagger(app) {
     },
     apis: ["./app.js",
       "./routes/authRoutes.js",
+      "./routes/gitRoutes.js",
+      "./routes/googleRoutes.js",
       "./routes/userRoutes.js",
       "./routes/docRoutes.js ",
       "./routes/inviteRoutes.js "
