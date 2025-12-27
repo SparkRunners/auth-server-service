@@ -61,7 +61,7 @@ app.use('/auth/google', googleRoutes);
  *         description: Server error
  */
 app.get('/', (req, res) => {
-    res.send('Hello from the auth-server-service express app!\n Try /api-docs/v1 to retrive all docs.')
+    res.send('Hello from the auth-server-service express app!\n Try /api-docs/v3 to retrive all docs.')
 })
 
 // show coverage status/code health in production at /coverage route

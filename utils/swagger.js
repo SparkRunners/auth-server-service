@@ -36,7 +36,7 @@ function setupSwagger(app) {
   };
 
   const specs = swaggerJsDoc(options);
-  app.use("/api-docs/v2/", swaggerUi.serve, swaggerUi.setup(specs));
+  app.use("/api-docs/v3/", swaggerUi.serve, swaggerUi.setup(specs));
 }
 
 module.exports = setupSwagger;

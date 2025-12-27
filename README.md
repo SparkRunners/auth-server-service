@@ -4,6 +4,7 @@
 - [auth-server-service](#auth-server-service)
     - [Innehållsförteckning](#innehållsförteckning)
   - [Beskrivning](#beskrivning)
+  - [Badges för att visa bygg och kodhälsa status:](#badges-för-att-visa-bygg-och-kodhälsa-status)
   - [Installation och körning](#installation-och-körning)
     - [Köra tester](#köra-tester)
 
@@ -30,7 +31,7 @@ auth-server-service är en server-applikation som exponerar auth REST APier för
 ```
 4. Gå till webbläsraen och testa genom att öppna dokumentaions sida.
 ```bash
- localhost:PORTNUMMER/auth-api-docs/v1 
+ localhost:PORTNUMMER/auth-api-docs/v3 
 ```
 
 ### Köra tester
