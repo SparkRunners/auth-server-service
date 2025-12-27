@@ -42,6 +42,11 @@ jobs:
         GITHUB_CLIENT_ID: "test"
         GITHUB_CLIENT_SECRET: "test"
         GITHUB_REDIRECT_URI: "http://localhost:3000/auth/github/callback"
-      run: npm test
+      run: npm test -- --coverage
       working-directory: ./
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        files: coverage/lcov.info
 
