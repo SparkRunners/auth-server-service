@@ -45,8 +45,8 @@ jobs:
       run: npm test -- --coverage
       working-directory: ./
 
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v4
+    - name: Upload results to Codecov
+      uses: codecov/codecov-action@v5
       with:
-        files: coverage/lcov.info
-
+        token: ${{ secrets.CODECOV_TOKEN }}
+        slug: SparkRunners/auth-server-service
