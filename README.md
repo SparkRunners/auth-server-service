@@ -4,7 +4,7 @@
 - [auth-server-service](#auth-server-service)
     - [Innehållsförteckning](#innehållsförteckning)
   - [Beskrivning](#beskrivning)
-  - [Badges för att visa bygg och kodhälsa status:](#badges-för-att-visa-bygg-och-kodhälsa-status)
+  - [Badges som visar byggstatus och status på kodhälsa:](#badges-som-visar-byggstatus-och-status-på-kodhälsa)
   - [Installation och körning](#installation-och-körning)
     - [Köra tester](#köra-tester)
 
@@ -12,9 +12,11 @@
 ## Beskrivning
 auth-server-service är en server-applikation som exponerar auth REST APier för att integrera inlogning +registrering av använder i olika applikationer och är kopplad till ett moln baserad mongodb.
 
-## Badges för att visa bygg och kodhälsa status:
+## Badges som visar byggstatus och status på kodhälsa:
 
 [![Node.js CI Refactoring branch](https://github.com/SparkRunners/auth-server-service/actions/workflows/node-CI.js.yml/badge.svg)](https://github.com/SparkRunners/auth-server-service/actions/workflows/node-CI.js.yml)
+
+[![codecov](https://codecov.io/github/SparkRunners/auth-server-service/branch/main/graph/badge.svg?token=L3YCM6V8MO)](https://codecov.io/github/SparkRunners/auth-server-service)
 
 ## Installation och körning
 1. För att få appen att fungera behövde vi klona repot:
