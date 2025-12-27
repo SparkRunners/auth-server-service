@@ -16,11 +16,17 @@ const authRoutes = require('./routes/authRoutes');
 const gitRoutes = require('./routes/gitRoutes');
 const googleRoutes = require('./routes/googleRoutes');
 const userRoutes = require('./routes/userRoutes');
-const oauthTestRoutes = require('./routes/oauthTestRoutes');
 const cors = require("./middleware/corsConfig")
 
 
-connectDB().catch(err => console.error("DB connect error", err));
+// connectDB().catch(err => console.error("DB connect error", err));
+
+// Only connect automatically if not testing
+if (process.env.NODE_ENV !== "test") {
+  connectDB().catch(err => console.error("DB connect error", err));
+}
+
+
 setupSwagger(app);
 
 
@@ -35,7 +41,6 @@ app.use('/', userRoutes);
 app.use('/auth', authRoutes);
 app.use('/auth/github', gitRoutes);
 app.use('/auth/google', googleRoutes);
-app.use('/oauth', oauthTestRoutes);
 
 // GET / - fetch astring as a swager docs example
 /**
@@ -59,6 +64,10 @@ app.get('/', (req, res) => {
     res.send('Hello from the auth-server-service express app!\n Try /api-docs/v1 to retrive all docs.')
 })
 
+// show coverage status/code health in production at /coverage route
+if (process.env.NODE_ENV !== "production") {
+  app.use("/coverage", express.static("coverage/lcov-report"));
+}
 
 if (process.env.NODE_ENV !== "test") {
   app.listen(PORT, () => {

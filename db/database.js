@@ -3,7 +3,11 @@ if (process.env.NODE_ENV !== "test") {
 }
 const mongoose = require("mongoose");
 
-const uri = process.env.ATLAS_URI;
+// const uri = process.env.ATLAS_URI;
+
+const uri = process.env.NODE_ENV === "test"
+  ? process.env.MONGO_URI
+  : process.env.ATLAS_URI;
 
 const DB_NAME =
   process.env.NODE_ENV === "test"
