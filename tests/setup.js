@@ -10,11 +10,15 @@ beforeAll(async () => {
   await mongoose.disconnect(); 
   mongo = await MongoMemoryServer.create();
   const uri = mongo.getUri();
-  await mongoose.connect(uri);
+  await mongoose.connect(uri, {
+    dbName: "test",
+  });
 });
 
 afterAll(async () => {
   await mongoose.connection.dropDatabase();
   await mongoose.connection.close();
-  await mongo.stop();
+  if (mongo) {
+    await mongo.stop();
+  }
 });

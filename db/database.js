@@ -20,11 +20,14 @@ async function connectDB() {
   if (connected || mongoose.connection.readyState === 1) return mongoose.connection;
   await mongoose.connect(uri, {
     dbName: DB_NAME,
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+    // useNewUrlParser: true,
+    // useUnifiedTopology: true,
   });
   connected = true;
-  console.log(`Mongoose connected to Database: ${DB_NAME}`);
+  if (process.env.NODE_ENV !== "test") {
+    console.log(`Mongoose connected to Database: ${DB_NAME}`);
+
+  }
   return mongoose.connection;
 }
 
