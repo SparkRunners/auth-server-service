@@ -40,13 +40,20 @@ router.get(
  *           type: string
  *         required: true
  *         description: Authorization code returned by github
+ *       - in: query
+ *         name: client
+ *         schema:
+ *           type: string
+ *           enum: [web, mobile]
+ *         required: false
+ *         description: Optional. Specify "mobile" to redirect to the mobile deep link.
  *     responses:
  *       302:
- *         description: Redirect to frontend with JWT token
+ *         description: Redirect with JWT token. Web clients go to `/oauth-callback`; mobile clients go to `sparkapp://app/oauth-callback`.
  *       400:
  *         description: Missing or invalid authorization code
  *       401:
- *         description: OAuth authentication failed
+ *         description: OAuth authentication failed (redirects to login)
  */
 router.get('/callback', (req, res, next) => {
   passport.authenticate('github', { session: false }, (err, user) => {
