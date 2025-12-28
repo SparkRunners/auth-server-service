@@ -3,6 +3,8 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173'; // temp fallback
+const MOBILE_CALLBACK = "sparkapp://app/oauth-callback";
+const MOBILE_LOGIN = "sparkapp://app/login";
 
 
 
@@ -44,21 +46,41 @@ router.get('/', passport.authenticate('google', { scope: ['profile', 'email'] })
  *       401:
  *         description: OAuth authentication failed
  */
-router.get(
-    '/callback',
-    passport.authenticate('google', { session: false, failureRedirect: `${FRONTEND_URL}/login?error=oauth` }),
-    (req, res) => {
-        if (!req.user) {
-            return res.redirect(`${FRONTEND_URL}/login?error=oauth`);
+router.get('/callback', (req, res, next) => {
+    passport.authenticate('google', { session: false }, (err, user) => {
+        const isMobile = req.query.client === 'mobile';
+
+        const successRedirect = isMobile
+            ? MOBILE_CALLBACK
+            : `${FRONTEND_URL}/oauth-callback`;
+
+        const errorRedirect = isMobile
+            ? MOBILE_LOGIN
+            : `${FRONTEND_URL}/login`;
+
+        if (err || !user) {
+            return res.redirect(`${errorRedirect}?error=oauth`);
         }
 
-        // Create JWT
-        const payload = { id: req.user._id, username: req.user.username, email: req.user.email, role: req.user.role };
-        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d' });
+        const payload = {
+            id: user._id,
+            username: user.username,
+            email: user.email,
+            role: user.role
+        };
 
-        return res.redirect(`${FRONTEND_URL}/oauth-callback?token=${token}`);
-    }
-);
+        const token = jwt.sign(
+            payload,
+            process.env.JWT_SECRET,
+            { expiresIn: '1d' }
+        );
+
+        return res.redirect(
+            `${successRedirect}?token=${encodeURIComponent(token)}`
+        );
+    })(req, res, next);
+});
+
 
 
 module.exports = router;

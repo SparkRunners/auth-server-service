@@ -3,14 +3,16 @@
 // Tests google callback rout routes
 
 jest.mock("passport", () => ({
-  authenticate: jest.fn(() => {
+  authenticate: jest.fn((strategy, options, callback) => {
     return (req, res, next) => {
-      req.user = {
+      const user = {
         _id: "123",
         username: "testuser",
         email: "test@test.com",
         role: ["user"]
       };
+      if (callback) return callback(null, user);
+      req.user = user;
       next();
     };
   })
@@ -26,13 +28,16 @@ const app = express();
 app.use("/auth/google", router);
 
 describe("Google OAuth routes", () => {
-
-  test("GET /auth/google/callback → redirects with JWT", async () => {
+  test("Web flow redirects with JWT", async () => {
     const res = await request(app).get("/auth/google/callback");
-
     expect(res.statusCode).toBe(302);
     expect(res.headers.location).toContain("/oauth-callback?token=");
   });
 
+  test("Mobile flow redirects with JWT to deep link", async () => {
+    const res = await request(app).get("/auth/google/callback?client=mobile");
+    expect(res.statusCode).toBe(302);
+    expect(res.headers.location).toContain("sparkapp://app/oauth-callback?token=");
+  });
 });
   
