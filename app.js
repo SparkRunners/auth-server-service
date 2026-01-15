@@ -17,6 +17,7 @@ const gitRoutes = require('./routes/gitRoutes');
 const googleRoutes = require('./routes/googleRoutes');
 const userRoutes = require('./routes/userRoutes');
 const cors = require("./middleware/corsConfig")
+const fileLogger = require("./middleware/fileLogger");
 
 
 // connectDB().catch(err => console.error("DB connect error", err));
@@ -34,6 +35,8 @@ app.use(cors)
 app.use(express.json());
 app.use(cookieParser());
 app.use(passport.initialize()); 
+// use file logger to log api req/res
+app.use(fileLogger);
 
 
 // Define routes centerally
