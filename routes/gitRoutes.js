@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
-const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173'; // temp fallback
+// const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173'; // temp fallback
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3005'; // temp fallback
 const MOBILE_CALLBACK = "sparkapp://app/oauth-callback";
 const MOBILE_LOGIN = "sparkapp://app/login";
 
